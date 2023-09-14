@@ -13,7 +13,7 @@ const QRGenerator: React.FC<Props> = ({ qrCodeValue, setQrCodeValue }) => {
       <div className="flex flex-col justify-center items-center mt-10">
         <label
           htmlFor="first_name"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900"
         >
           Type Here 👇
         </label>

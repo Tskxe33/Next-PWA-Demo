@@ -39,7 +39,7 @@ const QrcodePage = () => {
               }
             }}
             constraints={{ facingMode: "environment" }}
-            className="w-40 h-40"
+            className="w-96 h-96"
           />
           <p>{data}</p>
         </div>
