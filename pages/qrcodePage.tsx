@@ -15,12 +15,6 @@ const QrcodePage = () => {
   const [qrCodeValue, setQrCodeValue] = useState("https://itengine.rs/");
   const [data, setData] = useState<string>("No result");
 
-  const handleResult: OnResultFunction = (result) => {
-    if (result) {
-      setData(result.getText());
-    }
-  };
-
   return (
     <div>
       <Navbar />
@@ -35,7 +29,15 @@ const QrcodePage = () => {
       {isTabActive === Tabs.READ && (
         <div className="flex flex-col justify-center items-center">
           <QrReader
-            onResult={handleResult}
+            onResult={(result, error) => {
+              if (!!result) {
+                setData(result?.text);
+              }
+
+              if (!!error) {
+                console.info(error);
+              }
+            }}
             constraints={{ facingMode: "environment" }}
             className="w-40 h-40"
           />
