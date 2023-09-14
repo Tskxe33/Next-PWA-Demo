@@ -1,8 +1,8 @@
-import Image from "next/image";
-import CameraIcon from "../assets/images/photo-camera.png";
 import { useEffect, useRef, useState } from "react";
 import { Camera, CameraType } from "react-camera-pro";
-import router from "next/router";
+import Navbar from "@/components/navbar";
+import Image from "next/image";
+import CameraIcon from "../assets/images/photo-camera.png";
 
 interface CameraErrorMessages {
   noCameraAccessible?: string;
@@ -23,49 +23,60 @@ const cameraErrorMessages: CameraErrorMessages = {
 
 const Home = () => {
   const camera = useRef<CameraType>(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
   const [numberOfCameras, setNumberOfCameras] = useState(0);
+  const [showImage, setShowImage] = useState(false);
+
   const [activeDeviceId, setActiveDeviceId] = useState<string | undefined>(
     undefined
   );
 
   const onTakePhoto = () => {
     const imageSrc = camera?.current?.takePhoto();
-    setImage(image);
 
     if (imageSrc !== undefined) {
       localStorage.setItem("myPhoto", imageSrc);
+      setImage(imageSrc);
+      setShowImage(!showImage);
     }
   };
 
-  useEffect(() => {
-    console.log(numberOfCameras);
-  }, [numberOfCameras]);
-
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <Camera
-        ref={camera}
-        facingMode="user"
-        videoSourceDeviceId={activeDeviceId}
-        numberOfCamerasCallback={(i) => setNumberOfCameras(i)}
-        aspectRatio={4 / 3}
-        errorMessages={cameraErrorMessages}
-        videoReadyCallback={() => {
-          console.log("Video feed ready.");
-        }}
-      />
-
-      <p className="from-slate-200 pb-5">Capture your photo</p>
-
-      <Image
-        src={CameraIcon}
-        width={40}
-        height={40}
-        alt="camera icon"
-        onClick={onTakePhoto}
-      />
-    </main>
+    <div>
+      <Navbar />
+      <main className="flex flex-col items-center justify-center">
+        <button
+          onClick={onTakePhoto}
+          className="my-5 relative inline-flex items-center justify-center p-0.5  overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
+        >
+          <span className="flex justify-center items-center relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+            <p className="from-slate-200 mr-5">Capture your photo</p>
+            <Image src={CameraIcon} width={30} height={30} alt="camera icon" />
+          </span>
+        </button>
+        {showImage ? (
+          <Image
+            src={image!}
+            width={30}
+            height={30}
+            alt="camera icon"
+            className="w-screen h-screen z-50"
+          />
+        ) : (
+          <Camera
+            ref={camera}
+            facingMode="user"
+            videoSourceDeviceId={activeDeviceId}
+            numberOfCamerasCallback={(i) => setNumberOfCameras(i)}
+            aspectRatio={16 / 6}
+            errorMessages={cameraErrorMessages}
+            videoReadyCallback={() => {
+              console.log("Video feed ready.");
+            }}
+          />
+        )}
+      </main>
+    </div>
   );
 };
 
