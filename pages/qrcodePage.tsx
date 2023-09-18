@@ -4,6 +4,7 @@ import QRCodeTabs from "@/components/QRCodeTabs";
 import QRCode from "react-qr-code";
 import QRGenerator from "@/components/QRGenerator";
 import { QrReader, OnResultFunction } from "react-qr-reader";
+import NotificationLayout from "@/components/Notification";
 
 export enum Tabs {
   READ = "Read",
@@ -16,7 +17,7 @@ const QrcodePage = () => {
   const [data, setData] = useState<string>("No result");
 
   return (
-    <div>
+    <NotificationLayout>
       <Navbar />
       <QRCodeTabs isTabActive={isTabActive} setIsTabActive={setIsTabActive} />
       {isTabActive === Tabs.GENERATE && (
@@ -44,7 +45,7 @@ const QrcodePage = () => {
           <p>{data}</p>
         </div>
       )}
-    </div>
+    </NotificationLayout>
   );
 };
 

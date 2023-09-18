@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Camera, CameraType } from "react-camera-pro";
 import Navbar from "@/components/navbar";
 import Image from "next/image";
 import CameraIcon from "../assets/images/photo-camera.png";
 
+import NotificationLayout from "@/components/Notification";
 interface CameraErrorMessages {
   noCameraAccessible?: string;
   permissionDenied?: string;
@@ -44,7 +45,7 @@ const Home = () => {
   const takePhotoAgain = () => setShowImage(false);
 
   return (
-    <div>
+    <NotificationLayout>
       <Navbar />
       <main className="flex flex-col items-center justify-center">
         <div className="flex flex-col items-center justify-center">
@@ -98,7 +99,7 @@ const Home = () => {
           />
         )}
       </main>
-    </div>
+    </NotificationLayout>
   );
 };
 
