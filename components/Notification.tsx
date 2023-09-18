@@ -14,6 +14,7 @@ interface Props {
 const NotificationLayout: React.FC<Props> = ({ children }) => {
   const { fcmToken } = useFcmToken();
 
+  console.log(fcmToken);
   fcmToken && console.log("FCM token:", fcmToken);
 
   useEffect(() => {
